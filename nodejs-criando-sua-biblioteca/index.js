@@ -8,7 +8,7 @@ function extraiLinks(texto) {
   while ((temp = regex.exec(texto)) !== null) {
     arrayResultados.push({ [temp[1]]: temp[2] });
   }
-  return arrayResultados === 0 ? "Sem links" : arrayResultados;
+  return arrayResultados.length === 0 ? "Sem links" : arrayResultados;
 }
 
 function trataErro(erro) {
