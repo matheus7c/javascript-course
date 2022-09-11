@@ -1,21 +1,40 @@
 const chalk = require("chalk");
 const fs = require("fs");
 
-console.log(chalk.blue.bgWhite.bold("Alura"));
-
 function trataErro(erro) {
-  throw new Error(erro);
+  throw new Error(chalk.red(erro));
 }
 
 function pegaArquivo(caminhoDoArquivo) {
   const encoding = "utf-8";
 
-  fs.readFile(caminhoDoArquivo, encoding, (_, texto) => {
+  fs.readFile(caminhoDoArquivo, encoding, (erro, texto) => {
     if (erro) {
       trataErro(erro);
     }
-    console.log(chalk.green);
+    console.log(chalk.green(texto));
   });
 }
 
-pegaArquivo("./arquivos/texto.md");
+function pegaArquivoAsync(caminhoDoArquivo) {
+  const encoding = "utf-8";
+
+  fs.promises
+    .readFile(caminhoDoArquivo, encoding)
+    .then((texto) => console.log(chalk.blue(texto)))
+    .catch((erro) => trataErro(erro));
+}
+
+async function pegaArquivoAwait(caminhoDoArquivo) {
+  const encoding = "utf-8";
+  try {
+    const texto = await fs.promises.readFile(caminhoDoArquivo, encoding);
+    console.log(chalk.yellow(texto));
+  } catch (erro) {
+    trataErro(erro);
+  }
+}
+
+// pegaArquivo("./arquivos/texto1.md");
+// pegaArquivoAsync("./arquivos/texto1.md");
+pegaArquivoAwait("./arquivos/texto1.md");
